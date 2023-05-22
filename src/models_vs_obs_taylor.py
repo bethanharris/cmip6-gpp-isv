@@ -55,25 +55,27 @@ def amplitude_taylor():
 
     fig = plt.figure()
 
-    stdref = np.std(amp['FLUXCOM-ERA5'])
+    stdref = 1.#np.std(amp['FLUXCOM-ERA5'])
 
-    dia = TaylorDiagram(stdref, fig=fig, label='FLUXCOM-ERA5')#, extend=True)
+    dia = TaylorDiagram(stdref, fig=fig, label='FLUXCOM-ERA5', normalised_stdev=True)#, extend=True)
 
     for model in models:
         for obs_product in obs:
             model_data = amp[model]
             obs_data = amp[obs_product]
             r = np.corrcoef(model_data, obs_data)[0, 1]
-            model_stdev = np.std(model_data)
-            dia.add_sample(model_stdev, r,
+            # model_stdev = np.std(model_data)
+            stdev_ratio = np.std(model_data)/np.std(obs_data)
+            dia.add_sample(stdev_ratio, r,
                            marker=obs_shapes(obs_product), ms=10, ls='',
                            mfc=model_colours(model), mec='k')
 
-    for obs_product in obs:
-        obs_data = amp[obs_product]
-        stddev = np.std(obs_data)
-        marker = obs_shapes(obs_product)
-        dia.add_refstd(stddev, marker, obs_product)
+    dia.add_refstd(1., '', '')    
+    # for obs_product in obs:
+    #     obs_data = amp[obs_product]
+    #     stddev = np.std(obs_data)
+    #     marker = obs_shapes(obs_product)
+    #     dia.add_refstd(stddev, marker, obs_product)
 
 
     dia.add_grid()
@@ -82,16 +84,21 @@ def amplitude_taylor():
     plt.setp(clbls, path_effects=[PathEffects.withStroke(linewidth=3, foreground="w")])
     box = dia.ax.get_position()
     dia.ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
-    obs_legend = dia.ax.legend(loc='upper left', bbox_to_anchor=(1.05, 0.5))
+    # obs_legend = dia.ax.legend(loc='upper left', bbox_to_anchor=(1.05, 0.5))
     model_lines = [Line2D([0], [0], marker='o', color=model_colours(model), label=model,
                           markerfacecolor=model_colours(model), lw=0, markersize=7,
                           markeredgecolor='k') for model in models]
+
+    obs_markers = [Line2D([0], [0], marker=obs_shapes(obs_product), label=obs_product,
+                   mfc='k', mec='0.5', ls='', ms=10) for obs_product in obs]
+
+    obs_legend = dia.ax.legend(obs_markers, obs, loc='upper left', bbox_to_anchor=(1.05, 0.5))
 
     dia.ax.legend(model_lines, models, loc='lower left', bbox_to_anchor=(1.05, 0.5))
     dia.ax.add_artist(obs_legend)
     fig_save_dir = f'../figures/multimodel/regional/taylor_diagrams/{analysis_version}'
     os.system(f'mkdir -p {fig_save_dir}')
-    plt.savefig(f'{fig_save_dir}/taylor_diagram_gpp_amplitude.png',
+    plt.savefig(f'{fig_save_dir}/taylor_diagram_gpp_amplitude_normalised_std.png',
                 dpi=400, bbox_extra_artists=plt.gcf().get_children(), bbox_inches='tight', pad_inches=0.3)
     plt.show()
 
@@ -106,56 +113,48 @@ def subplots_taylor():
     lag.dropna(inplace=True)
     final_amp.dropna(inplace=True)
 
-    amp_ref_std = amp.drop(columns='region').std(axis=0).median()
-    lag_ref_std = lag.drop(columns='region').std(axis=0).median()
-    final_amp_ref_std = final_amp.drop(columns='region').std(axis=0).median()
-
-    amp_srange = amp.drop(columns='region').std(axis=0).max()/amp_ref_std * 1.1
-    lag_srange = lag.drop(columns='region').std(axis=0).max()/lag_ref_std * 1.1
-    final_amp_srange = final_amp.drop(columns='region').std(axis=0).max()/final_amp_ref_std * 1.1
+    max_amp_std_ratio = 0
+    max_lag_std_ratio = 0
+    max_final_amp_std_ratio = 0
+    for model in models:
+        for obs_product in obs:
+            model_data = amp[model]
+            obs_data = amp[obs_product]
+            amp_std_ratio = np.std(amp[model])/np.std(amp[obs_product])
+            lag_std_ratio = np.std(lag[model])/np.std(lag[obs_product])
+            final_amp_std_ratio = np.std(final_amp[model])/np.std(final_amp[obs_product])
+            max_amp_std_ratio = max(max_amp_std_ratio, amp_std_ratio)
+            max_lag_std_ratio = max(max_lag_std_ratio, lag_std_ratio)
+            max_final_amp_std_ratio = max(max_final_amp_std_ratio, final_amp_std_ratio)
 
     fig = plt.figure(figsize=(12, 9))
-    amp_dia = TaylorDiagram(amp_ref_std, fig=fig, rect=221, srange=(0, amp_srange), rotate_stdev_labels=True)
-    lag_dia = TaylorDiagram(lag_ref_std, fig=fig, rect=223, extend=True, srange=(0, lag_srange))
-    final_amp_dia = TaylorDiagram(final_amp_ref_std, fig=fig, rect=222, srange=(0, final_amp_srange), rotate_stdev_labels=True)
+    amp_dia = TaylorDiagram(1., fig=fig, rect=221, rotate_stdev_labels=True, srange=(0, 1.05*max_amp_std_ratio), normalised_stdev=True)
+    lag_dia = TaylorDiagram(1., fig=fig, rect=223, extend=True, srange=(0, 1.05*max_lag_std_ratio), normalised_stdev=True)
+    final_amp_dia = TaylorDiagram(1., fig=fig, rect=222, srange=(0, 1.05*max_final_amp_std_ratio), rotate_stdev_labels=True, normalised_stdev=True)
 
     for model in models:
         for obs_product in obs:
             model_data = amp[model]
             obs_data = amp[obs_product]
             r = np.corrcoef(model_data, obs_data)[0, 1]
-            model_stdev = np.std(model_data)
-            amp_dia.add_sample(model_stdev, r,
+            stdev_ratio = np.std(model_data)/np.std(obs_data)
+            amp_dia.add_sample(stdev_ratio, r,
                                marker=obs_shapes(obs_product), ms=10, ls='',
                                mfc=model_colours(model), mec='k')
             model_data = lag[model]
             obs_data = lag[obs_product]
             r = np.corrcoef(model_data, obs_data)[0, 1]
-            model_stdev = np.std(model_data)
-            lag_dia.add_sample(model_stdev, r,
+            stdev_ratio = np.std(model_data)/np.std(obs_data)
+            lag_dia.add_sample(stdev_ratio, r,
                                marker=obs_shapes(obs_product), ms=10, ls='',
                                mfc=model_colours(model), mec='k')
             model_data = final_amp[model]
             obs_data = final_amp[obs_product]
             r = np.corrcoef(model_data, obs_data)[0, 1]
-            model_stdev = np.std(model_data)
-            final_amp_dia.add_sample(model_stdev, r,
+            stdev_ratio = np.std(model_data)/np.std(obs_data)
+            final_amp_dia.add_sample(stdev_ratio, r,
                                      marker=obs_shapes(obs_product), ms=10, ls='',
                                      mfc=model_colours(model), mec='k')
-
-    for obs_product in obs:
-        obs_data = amp[obs_product]
-        stddev = np.std(obs_data)
-        marker = obs_shapes(obs_product)
-        amp_dia.add_refstd(stddev, marker, obs_product)
-        obs_data = lag[obs_product]
-        stddev = np.std(obs_data)
-        marker = obs_shapes(obs_product)
-        lag_dia.add_refstd(stddev, marker, obs_product)
-        obs_data = final_amp[obs_product]
-        stddev = np.std(obs_data)
-        marker = obs_shapes(obs_product)
-        final_amp_dia.add_refstd(stddev, marker, obs_product)
 
     for dia in amp_dia, lag_dia, final_amp_dia:
         dia.add_grid()
@@ -164,14 +163,15 @@ def subplots_taylor():
         plt.setp(clbls, path_effects=[PathEffects.withStroke(linewidth=3, foreground="w")], clip_on=False)
         box = dia.ax.get_position()
         dia.ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
-        obs_legend_handles, obs_legend_labels = dia.ax.get_legend_handles_labels()
+        obs_markers = [Line2D([0], [0], marker=obs_shapes(obs_product), label=obs_product,
+                   mfc='k', mec='0.5', ls='', ms=10) for obs_product in obs]
         model_lines = [Line2D([0], [0], marker='o', color=model_colours(model), label=model,
                               markerfacecolor=model_colours(model), lw=0, markersize=7,
                               markeredgecolor='k') for model in models]
 
     legend_ax = fig.add_subplot(224)
     model_legend = legend_ax.legend(model_lines, models, loc='lower left', bbox_to_anchor=(0.25, 0.6), fontsize=14)
-    legend_ax.legend(obs_legend_handles, obs_legend_labels, loc='upper left', bbox_to_anchor=(0.25, 0.6), fontsize=14)
+    legend_ax.legend(obs_markers, obs, loc='upper left', bbox_to_anchor=(0.25, 0.6), fontsize=14)
     legend_ax.add_artist(model_legend)
     legend_ax.axis('off')
 
@@ -182,8 +182,8 @@ def subplots_taylor():
     os.system(f'mkdir -p {fig_save_dir}')
     plt.tight_layout()
     plt.subplots_adjust(hspace=0.3)
-    plt.savefig(f'{fig_save_dir}/taylor_diagram_gpp_subplots.png', dpi=400)
-    plt.savefig(f'{fig_save_dir}/taylor_diagram_gpp_subplots.pdf', dpi=400)
+    plt.savefig(f'{fig_save_dir}/taylor_diagram_gpp_subplots_normalised_std.png', dpi=400)
+    plt.savefig(f'{fig_save_dir}/taylor_diagram_gpp_subplots_normalised_std.pdf', dpi=400)
     plt.show()
 
 
