@@ -122,6 +122,8 @@ def subplots_taylor():
             obs_data = amp[obs_product]
             amp_std_ratio = np.std(amp[model])/np.std(amp[obs_product])
             lag_std_ratio = np.std(lag[model])/np.std(lag[obs_product])
+            if lag_std_ratio > 1.:
+                lag_std_ratio = np.sqrt(lag_std_ratio)
             final_amp_std_ratio = np.std(final_amp[model])/np.std(final_amp[obs_product])
             max_amp_std_ratio = max(max_amp_std_ratio, amp_std_ratio)
             max_lag_std_ratio = max(max_lag_std_ratio, lag_std_ratio)
@@ -129,7 +131,7 @@ def subplots_taylor():
 
     fig = plt.figure(figsize=(12, 9))
     amp_dia = TaylorDiagram(1., fig=fig, rect=221, rotate_stdev_labels=True, srange=(0, 1.05*max_amp_std_ratio), normalised_stdev=True)
-    lag_dia = TaylorDiagram(1., fig=fig, rect=223, extend=True, srange=(0, 1.05*max_lag_std_ratio), normalised_stdev=True)
+    lag_dia = TaylorDiagram(1., fig=fig, rect=223, extend=True, srange=(0, 1.05*max_lag_std_ratio), normalised_stdev=True, sqrt_stdev=True)
     final_amp_dia = TaylorDiagram(1., fig=fig, rect=222, srange=(0, 1.05*max_final_amp_std_ratio), rotate_stdev_labels=True, normalised_stdev=True)
 
     for model in models:
@@ -145,6 +147,8 @@ def subplots_taylor():
             obs_data = lag[obs_product]
             r = np.corrcoef(model_data, obs_data)[0, 1]
             stdev_ratio = np.std(model_data)/np.std(obs_data)
+            if stdev_ratio >1.:
+                stdev_ratio = np.sqrt(stdev_ratio)
             lag_dia.add_sample(stdev_ratio, r,
                                marker=obs_shapes(obs_product), ms=10, ls='',
                                mfc=model_colours(model), mec='k')
@@ -161,6 +165,7 @@ def subplots_taylor():
         contours = dia.add_contours(colors='0.5')
         clbls = plt.clabel(contours, inline=1, fontsize=10, fmt='%.2f', use_clabeltext=True)
         plt.setp(clbls, path_effects=[PathEffects.withStroke(linewidth=3, foreground="w")], clip_on=False)
+        dia.add_refstd(1., '', '')
         box = dia.ax.get_position()
         dia.ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
         obs_markers = [Line2D([0], [0], marker=obs_shapes(obs_product), label=obs_product,
