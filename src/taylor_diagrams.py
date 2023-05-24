@@ -98,7 +98,7 @@ class TaylorDiagram(object):
 
         ax.axis["left"].set_axis_direction("bottom")  # "X axis"
         if normalised_stdev:
-            ax.axis["left"].label.set_text(r"$\sigma_{\mathrm{model}}/\sigma_{\mathrm{obs}}$")
+            ax.axis["left"].label.set_text("$\sigma_{\mathrm{model}}/\sigma_{\mathrm{obs}}$\n\n")
         else:
             ax.axis["left"].label.set_text("Standard deviation")
         ax.axis["left"].label.set_size(16)

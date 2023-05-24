@@ -5,6 +5,7 @@ import os
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 import matplotlib.patheffects as PathEffects
+from matplotlib.transforms import Bbox
 
 
 analysis_version = 'rolling_7d_mean_stdev_maskfrozen_regrid_1_by_1_deg_standardised_CCI-SM-mask'
@@ -172,22 +173,22 @@ def subplots_taylor():
         obs_markers = [Line2D([0], [0], marker=obs_shapes(obs_product), label=obs_product,
                    mfc='k', mec='0.5', ls='', ms=10) for obs_product in obs]
         model_lines = [Line2D([0], [0], marker='o', color=model_colours(model), label=model,
-                              markerfacecolor=model_colours(model), lw=0, markersize=7,
+                              markerfacecolor=model_colours(model), lw=0, markersize=10,
                               markeredgecolor='k') for model in models]
 
     legend_ax = fig.add_subplot(224)
-    model_legend = legend_ax.legend(model_lines, models, loc='lower left', bbox_to_anchor=(0.25, 0.6), fontsize=14)
-    legend_ax.legend(obs_markers, obs, loc='upper left', bbox_to_anchor=(0.25, 0.6), fontsize=14)
+    model_legend = legend_ax.legend(model_lines, models, loc='lower left', bbox_to_anchor=(0.25, 0.65), fontsize=14)
+    legend_ax.legend(obs_markers, obs, loc='upper left', bbox_to_anchor=(0.25, 0.65), fontsize=14)
     legend_ax.add_artist(model_legend)
     legend_ax.axis('off')
 
     amp_dia._ax.set_title("$\\bf{(a)}$ " + 'gpp peak amplitude', pad=15, fontsize=16)
     final_amp_dia._ax.set_title("$\\bf{(b)}$ " + 'gpp post-event amplitude', pad=15, fontsize=16)
-    lag_dia._ax.set_title("$\\bf{c)}$ " + 'gpp lag (days)', pad=40, fontsize=16)
+    lag_dia._ax.set_title("$\\bf{c)}$ " + 'gpp lag', pad=40, fontsize=16)
     fig_save_dir = f'../figures/multimodel/regional/taylor_diagrams/{analysis_version}'
     os.system(f'mkdir -p {fig_save_dir}')
     plt.tight_layout()
-    plt.subplots_adjust(hspace=0.4)
+    plt.subplots_adjust(hspace=0.4, wspace=-0.05)
     plt.savefig(f'{fig_save_dir}/taylor_diagram_gpp_subplots_normalised_std.png', dpi=400)
     plt.savefig(f'{fig_save_dir}/taylor_diagram_gpp_subplots_normalised_std.pdf', dpi=400)
     plt.show()
