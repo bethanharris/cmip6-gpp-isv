@@ -160,9 +160,10 @@ def subplots_taylor():
                                      marker=obs_shapes(obs_product), ms=10, ls='',
                                      mfc=model_colours(model), mec='k')
 
-    for dia in amp_dia, lag_dia, final_amp_dia:
+    for i, dia in enumerate([amp_dia, lag_dia, final_amp_dia]):
         dia.add_grid()
-        contours = dia.add_contours(colors='0.5')
+        ###remove next three lines to get rid of RMSE contours###
+        contours = dia.add_contours(colors='0.5', sqrt_stdev=(i==1)) #sqrt only for lag
         clbls = plt.clabel(contours, inline=1, fontsize=10, fmt='%.2f', use_clabeltext=True)
         plt.setp(clbls, path_effects=[PathEffects.withStroke(linewidth=3, foreground="w")], clip_on=False)
         dia.add_refstd(1., '', '')
@@ -182,11 +183,11 @@ def subplots_taylor():
 
     amp_dia._ax.set_title("$\\bf{(a)}$ " + 'gpp peak amplitude', pad=15, fontsize=16)
     final_amp_dia._ax.set_title("$\\bf{(b)}$ " + 'gpp post-event amplitude', pad=15, fontsize=16)
-    lag_dia._ax.set_title("$\\bf{c)}$ " + 'gpp lag (days)', pad=35, fontsize=16)
+    lag_dia._ax.set_title("$\\bf{c)}$ " + 'gpp lag (days)', pad=40, fontsize=16)
     fig_save_dir = f'../figures/multimodel/regional/taylor_diagrams/{analysis_version}'
     os.system(f'mkdir -p {fig_save_dir}')
     plt.tight_layout()
-    plt.subplots_adjust(hspace=0.3)
+    plt.subplots_adjust(hspace=0.4)
     plt.savefig(f'{fig_save_dir}/taylor_diagram_gpp_subplots_normalised_std.png', dpi=400)
     plt.savefig(f'{fig_save_dir}/taylor_diagram_gpp_subplots_normalised_std.pdf', dpi=400)
     plt.show()

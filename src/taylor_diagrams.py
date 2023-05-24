@@ -23,7 +23,8 @@ class TaylorDiagram(object):
     """
 
     def __init__(self, refstd,
-                 fig=None, rect=111, label='_', srange=(0, 1.5), extend=False, rotate_stdev_labels=False):
+                 fig=None, rect=111, label='_', srange=(0, 1.5), extend=False,
+                 normalised_stdev=False, sqrt_stdev=False, rotate_stdev_labels=False):
         """
         Set up Taylor diagram axes, i.e. single quadrant polar
         plot, using `mpl_toolkits.axisartist.floating_axes`.
@@ -57,6 +58,19 @@ class TaylorDiagram(object):
         gl1 = GF.FixedLocator(tlocs)    # Positions
         tf1 = GF.DictFormatter(dict(zip(tlocs, map(str, rlocs))))
 
+        if sqrt_stdev:
+            slocs = NP.array([0, 0.5, 1, NP.sqrt(2), NP.sqrt(3), NP.sqrt(4)])
+            actual_values = NP.copy(slocs)
+            actual_values[slocs>1] = slocs[slocs>1]**2
+            int_diff = NP.abs(actual_values - NP.round(actual_values))
+            actual_values[int_diff<1e-6] = NP.round(actual_values[int_diff<1e-6])
+            gl2 = GF.FixedLocator(slocs)
+            tf2 = GF.DictFormatter(dict(zip(slocs, map(str, actual_values))))
+        else:
+            gl2 = None
+            tf2 = None
+
+
         # Standard deviation axis extent (in units of reference stddev)
         self.smin = srange[0] * self.refstd
         self.smax = srange[1] * self.refstd
@@ -64,7 +78,8 @@ class TaylorDiagram(object):
         ghelper = FA.GridHelperCurveLinear(
             tr,
             extremes=(0, self.tmax, self.smin, self.smax),
-            grid_locator1=gl1, tick_formatter1=tf1)
+            grid_locator1=gl1, tick_formatter1=tf1,
+            grid_locator2=gl2, tick_formatter2=tf2)
 
         if fig is None:
             fig = PLT.figure()
@@ -76,27 +91,35 @@ class TaylorDiagram(object):
         ax.axis["top"].set_axis_direction("bottom")   # "Angle axis"
         ax.axis["top"].toggle(ticklabels=True, label=True)
         ax.axis["top"].major_ticklabels.set_axis_direction("top")
+        ax.axis["top"].major_ticklabels.set_size(12)
         ax.axis["top"].label.set_axis_direction("top")
         ax.axis["top"].label.set_text("Correlation")
+        ax.axis["top"].label.set_size(14)
 
         ax.axis["left"].set_axis_direction("bottom")  # "X axis"
-        ax.axis["left"].label.set_text("Standard deviation")
+        if normalised_stdev:
+            ax.axis["left"].label.set_text(r"$\sigma_{\mathrm{model}}/\sigma_{\mathrm{obs}}$")
+        else:
+            ax.axis["left"].label.set_text("Standard deviation")
+        ax.axis["left"].label.set_size(16)
         ax.axis["left"].major_ticks.set_tick_out(True)
         ax.axis["left"].major_ticks.set_ticksize(5)
         ax.axis["left"].major_ticklabels.set_pad(5)
         if rotate_stdev_labels:
             ax.axis["left"].major_ticklabels.set_rotation(20)
             ax.axis["left"].label.set_pad(7)
-
+        ax.axis["left"].major_ticklabels.set_size(12)
         ax.axis["right"].set_axis_direction("top")    # "Y-axis"
         ax.axis["right"].toggle(ticklabels=True)
         ax.axis["right"].major_ticklabels.set_axis_direction(
             "bottom" if extend else "left")
         ax.axis["right"].major_ticks.set_tick_out(True)
+        ax.axis["right"].major_ticklabels.set_size(12)
 
         if extend:
             ax.axis["right"].major_ticks.set_ticksize(5)
             ax.axis["right"].major_ticklabels.set_pad(5)
+            ax.axis["right"].major_ticklabels.set_size(12)
     
         if self.smin:
             ax.axis["bottom"].toggle(ticklabels=False, label=False)
@@ -134,15 +157,20 @@ class TaylorDiagram(object):
 
         self._ax.grid(*args, **kwargs)
 
-    def add_contours(self, levels=5, **kwargs):
+    def add_contours(self, levels=5, sqrt_stdev=False, **kwargs):
         """
         Add constant centered RMS difference contours, defined by *levels*.
         """
 
         rs, ts = NP.meshgrid(NP.linspace(self.smin, self.smax),
                              NP.linspace(0, self.tmax))
+        if sqrt_stdev:
+            actual_rs = NP.copy(rs)
+            actual_rs[rs>1.] = (rs[rs>1.])**2
+            rms = NP.sqrt(self.refstd**2 + actual_rs**2 - 2*self.refstd*actual_rs*NP.cos(ts))
         # Compute centered RMS difference
-        rms = NP.sqrt(self.refstd**2 + rs**2 - 2*self.refstd*rs*NP.cos(ts))
+        else:
+            rms = NP.sqrt(self.refstd**2 + rs**2 - 2*self.refstd*rs*NP.cos(ts))
 
         contours = self.ax.contour(ts, rs, rms, levels, **kwargs)
 
