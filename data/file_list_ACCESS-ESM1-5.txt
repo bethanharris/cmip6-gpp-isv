@@ -1,0 +1,13 @@
+http://esgf.nci.org.au/thredds/fileServer/master/CMIP6/CMIP/CSIRO/ACCESS-ESM1-5/esm-hist/r1i1p1f1/day/pr/gn/v20191128/pr_day_ACCESS-ESM1-5_esm-hist_r1i1p1f1_gn_20000101-20141231.nc
+http://esgf.nci.org.au/thredds/fileServer/master/CMIP6/CMIP/CSIRO/ACCESS-ESM1-5/esm-hist/r1i1p1f1/day/mrsos/gn/v20191128/mrsos_day_ACCESS-ESM1-5_esm-hist_r1i1p1f1_gn_20000101-20141231.nc
+http://esgf.nci.org.au/thredds/fileServer/master/CMIP6/CMIP/CSIRO/ACCESS-ESM1-5/esm-hist/r1i1p1f1/day/tasmax/gn/v20191128/tasmax_day_ACCESS-ESM1-5_esm-hist_r1i1p1f1_gn_20000101-20141231.nc
+http://esgf.nci.org.au/thredds/fileServer/master/CMIP6/CMIP/CSIRO/ACCESS-ESM1-5/esm-hist/r1i1p1f1/day/hfls/gn/v20191128/hfls_day_ACCESS-ESM1-5_esm-hist_r1i1p1f1_gn_20000101-20141231.nc
+http://esgf.nci.org.au/thredds/fileServer/master/CMIP6/CMIP/CSIRO/ACCESS-ESM1-5/esm-hist/r1i1p1f1/day/rsds/gn/v20191128/rsds_day_ACCESS-ESM1-5_esm-hist_r1i1p1f1_gn_20000101-20141231.nc
+http://esgf.nci.org.au/thredds/fileServer/master/CMIP6/CMIP/CSIRO/ACCESS-ESM1-5/esm-hist/r1i1p1f1/Eday/lai/gn/v20191128/lai_Eday_ACCESS-ESM1-5_esm-hist_r1i1p1f1_gn_20000101-20141231.nc
+http://esgf.nci.org.au/thredds/fileServer/master/CMIP6/CMIP/CSIRO/ACCESS-ESM1-5/esm-hist/r1i1p1f1/E3hr/gpp/gn/v20191128/gpp_E3hr_ACCESS-ESM1-5_esm-hist_r1i1p1f1_gn_200001010130-200912312230.nc
+http://esgf.nci.org.au/thredds/fileServer/master/CMIP6/CMIP/CSIRO/ACCESS-ESM1-5/esm-hist/r1i1p1f1/E3hr/gpp/gn/v20191128/gpp_E3hr_ACCESS-ESM1-5_esm-hist_r1i1p1f1_gn_201001010130-201412312230.nc
+http://esgf.nci.org.au/thredds/fileServer/master/CMIP6/CMIP/CSIRO/ACCESS-ESM1-5/esm-hist/r1i1p1f1/fx/sftlf/gn/v20191128/sftlf_fx_ACCESS-ESM1-5_esm-hist_r1i1p1f1_gn.nc
+http://esgf.nci.org.au/thredds/fileServer/master/CMIP6/CMIP/CSIRO/ACCESS-ESM1-5/esm-hist/r1i1p1f1/day/mrso/gn/v20191128/mrso_day_ACCESS-ESM1-5_esm-hist_r1i1p1f1_gn_20000101-20141231.nc
+http://esgf.nci.org.au/thredds/fileServer/master/CMIP6/CMIP/CSIRO/ACCESS-ESM1-5/esm-hist/r1i1p1f1/Eday/mrsol/gn/v20191128/mrsol_Eday_ACCESS-ESM1-5_esm-hist_r1i1p1f1_gn_20000101-20041231.nc
+http://esgf.nci.org.au/thredds/fileServer/master/CMIP6/CMIP/CSIRO/ACCESS-ESM1-5/esm-hist/r1i1p1f1/Eday/mrsol/gn/v20191128/mrsol_Eday_ACCESS-ESM1-5_esm-hist_r1i1p1f1_gn_20050101-20091231.nc
+http://esgf.nci.org.au/thredds/fileServer/master/CMIP6/CMIP/CSIRO/ACCESS-ESM1-5/esm-hist/r1i1p1f1/Eday/mrsol/gn/v20191128/mrsol_Eday_ACCESS-ESM1-5_esm-hist_r1i1p1f1_gn_20100101-20141231.nc

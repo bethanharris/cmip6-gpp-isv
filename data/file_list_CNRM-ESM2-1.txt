@@ -1,0 +1,10 @@
+http://esg1.umr-cnrm.fr/thredds/fileServer/CMIP6_CNRM/CMIP/CNRM-CERFACS/CNRM-ESM2-1/esm-hist/r1i1p1f3/day/pr/gr/v20200715/pr_day_CNRM-ESM2-1_esm-hist_r1i1p1f3_gr_19500101-20141231.nc
+http://esg1.umr-cnrm.fr/thredds/fileServer/CMIP6_CNRM/CMIP/CNRM-CERFACS/CNRM-ESM2-1/esm-hist/r1i1p1f3/day/mrsos/gr/v20200715/mrsos_day_CNRM-ESM2-1_esm-hist_r1i1p1f3_gr_18500101-20141231.nc
+http://esg1.umr-cnrm.fr/thredds/fileServer/CMIP6_CNRM/CMIP/CNRM-CERFACS/CNRM-ESM2-1/esm-hist/r1i1p1f3/day/tasmax/gr/v20200715/tasmax_day_CNRM-ESM2-1_esm-hist_r1i1p1f3_gr_18500101-20141231.nc
+http://esg1.umr-cnrm.fr/thredds/fileServer/CMIP6_CNRM/CMIP/CNRM-CERFACS/CNRM-ESM2-1/esm-hist/r1i1p1f3/day/hfls/gr/v20200715/hfls_day_CNRM-ESM2-1_esm-hist_r1i1p1f3_gr_19500101-20141231.nc
+http://esg1.umr-cnrm.fr/thredds/fileServer/CMIP6_CNRM/CMIP/CNRM-CERFACS/CNRM-ESM2-1/esm-hist/r1i1p1f3/day/rsds/gr/v20200715/rsds_day_CNRM-ESM2-1_esm-hist_r1i1p1f3_gr_19500101-20141231.nc
+http://esg1.umr-cnrm.fr/thredds/fileServer/CMIP6_CNRM/CMIP/CNRM-CERFACS/CNRM-ESM2-1/esm-hist/r1i1p1f3/Eday/lai/gr/v20200715/lai_Eday_CNRM-ESM2-1_esm-hist_r1i1p1f3_gr_18500101-20141231.nc
+http://esg1.umr-cnrm.fr/thredds/fileServer/CMIP6_CNRM/CMIP/CNRM-CERFACS/CNRM-ESM2-1/esm-hist/r1i1p1f3/E3hr/gpp/gr/v20200715/gpp_E3hr_CNRM-ESM2-1_esm-hist_r1i1p1f3_gr_197901010130-201412312230.nc
+http://esg1.umr-cnrm.fr/thredds/fileServer/CMIP6_CNRM/CMIP/CNRM-CERFACS/CNRM-ESM2-1/esm-hist/r1i1p1f3/fx/sftlf/gr/v20200715/sftlf_fx_CNRM-ESM2-1_esm-hist_r1i1p1f3_gr.nc
+http://esg1.umr-cnrm.fr/thredds/fileServer/CMIP6_CNRM/CMIP/CNRM-CERFACS/CNRM-ESM2-1/esm-hist/r1i1p1f3/day/mrso/gr/v20200715/mrso_day_CNRM-ESM2-1_esm-hist_r1i1p1f3_gr_18500101-20141231.nc
+http://esg1.umr-cnrm.fr/thredds/fileServer/CMIP6_CNRM/CMIP/CNRM-CERFACS/CNRM-ESM2-1/esm-hist/r1i1p1f3/Eday/mrsol/gr/v20200715/mrsol_Eday_CNRM-ESM2-1_esm-hist_r1i1p1f3_gr_20000101-20141231.nc

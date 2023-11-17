@@ -1,0 +1,12 @@
+http://esgf3.dkrz.de/thredds/fileServer/cmip6/CMIP/BCC/BCC-CSM2-MR/esm-hist/r1i1p1f1/day/pr/gn/v20181128/pr_day_BCC-CSM2-MR_esm-hist_r1i1p1f1_gn_20000101-20141231.nc
+http://esgf3.dkrz.de/thredds/fileServer/cmip6/CMIP/BCC/BCC-CSM2-MR/esm-hist/r1i1p1f1/day/mrsos/gn/v20181226/mrsos_day_BCC-CSM2-MR_esm-hist_r1i1p1f1_gn_19900101-20141231.nc
+http://esgf3.dkrz.de/thredds/fileServer/cmip6/CMIP/BCC/BCC-CSM2-MR/esm-hist/r1i1p1f1/day/tasmax/gn/v20181128/tasmax_day_BCC-CSM2-MR_esm-hist_r1i1p1f1_gn_20000101-20141231.nc
+http://esgf3.dkrz.de/thredds/fileServer/cmip6/CMIP/BCC/BCC-CSM2-MR/esm-hist/r1i1p1f1/day/hfls/gn/v20181129/hfls_day_BCC-CSM2-MR_esm-hist_r1i1p1f1_gn_20000101-20141231.nc
+http://esgf3.dkrz.de/thredds/fileServer/cmip6/CMIP/BCC/BCC-CSM2-MR/esm-hist/r1i1p1f1/day/rsds/gn/v20181129/rsds_day_BCC-CSM2-MR_esm-hist_r1i1p1f1_gn_20000101-20141231.nc
+http://esgf3.dkrz.de/thredds/fileServer/cmip6/CMIP/BCC/BCC-CSM2-MR/esm-hist/r1i1p1f1/E3hr/gpp/gn/v20181220/gpp_E3hr_BCC-CSM2-MR_esm-hist_r1i1p1f1_gn_199801010130-200012312230.nc
+http://esgf3.dkrz.de/thredds/fileServer/cmip6/CMIP/BCC/BCC-CSM2-MR/esm-hist/r1i1p1f1/E3hr/gpp/gn/v20181220/gpp_E3hr_BCC-CSM2-MR_esm-hist_r1i1p1f1_gn_200101010130-200312312230.nc
+http://esgf3.dkrz.de/thredds/fileServer/cmip6/CMIP/BCC/BCC-CSM2-MR/esm-hist/r1i1p1f1/E3hr/gpp/gn/v20181220/gpp_E3hr_BCC-CSM2-MR_esm-hist_r1i1p1f1_gn_200401010130-200612312230.nc
+http://esgf3.dkrz.de/thredds/fileServer/cmip6/CMIP/BCC/BCC-CSM2-MR/esm-hist/r1i1p1f1/E3hr/gpp/gn/v20181220/gpp_E3hr_BCC-CSM2-MR_esm-hist_r1i1p1f1_gn_200701010130-200912312230.nc
+http://esgf3.dkrz.de/thredds/fileServer/cmip6/CMIP/BCC/BCC-CSM2-MR/esm-hist/r1i1p1f1/E3hr/gpp/gn/v20181220/gpp_E3hr_BCC-CSM2-MR_esm-hist_r1i1p1f1_gn_201001010130-201212312230.nc
+http://esgf3.dkrz.de/thredds/fileServer/cmip6/CMIP/BCC/BCC-CSM2-MR/esm-hist/r1i1p1f1/E3hr/gpp/gn/v20181220/gpp_E3hr_BCC-CSM2-MR_esm-hist_r1i1p1f1_gn_201301010130-201412312230.nc
+http://esgf3.dkrz.de/thredds/fileServer/cmip6/CMIP/BCC/BCC-CSM2-MR/esm-hist/r1i1p1f1/day/mrso/gn/v20181226/mrso_day_BCC-CSM2-MR_esm-hist_r1i1p1f1_gn_19900101-20141231.nc

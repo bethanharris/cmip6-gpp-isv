@@ -1,0 +1,10 @@
+https://esgf.ceda.ac.uk/thredds/fileServer/esg_cmip6/CMIP6/CMIP/MOHC/UKESM1-0-LL/esm-hist/r2i1p1f2/day/pr/gn/v20210122/pr_day_UKESM1-0-LL_esm-hist_r2i1p1f2_gn_19500101-20141230.nc
+https://esgf.ceda.ac.uk/thredds/fileServer/esg_cmip6/CMIP6/CMIP/MOHC/UKESM1-0-LL/esm-hist/r2i1p1f2/day/mrsos/gn/v20210122/mrsos_day_UKESM1-0-LL_esm-hist_r2i1p1f2_gn_19500101-20141230.nc
+https://esgf.ceda.ac.uk/thredds/fileServer/esg_cmip6/CMIP6/CMIP/MOHC/UKESM1-0-LL/esm-hist/r2i1p1f2/day/tasmax/gn/v20210122/tasmax_day_UKESM1-0-LL_esm-hist_r2i1p1f2_gn_19500101-20141230.nc
+https://esgf.ceda.ac.uk/thredds/fileServer/esg_cmip6/CMIP6/CMIP/MOHC/UKESM1-0-LL/esm-hist/r2i1p1f2/day/hfls/gn/v20210122/hfls_day_UKESM1-0-LL_esm-hist_r2i1p1f2_gn_19500101-20141230.nc
+https://esgf.ceda.ac.uk/thredds/fileServer/esg_cmip6/CMIP6/CMIP/MOHC/UKESM1-0-LL/esm-hist/r2i1p1f2/day/rsds/gn/v20210122/rsds_day_UKESM1-0-LL_esm-hist_r2i1p1f2_gn_19500101-20141230.nc
+https://esgf.ceda.ac.uk/thredds/fileServer/esg_cmip6/CMIP6/CMIP/MOHC/UKESM1-0-LL/esm-hist/r2i1p1f2/E3hr/gpp/gn/v20210122/gpp_E3hr_UKESM1-0-LL_esm-hist_r2i1p1f2_gn_200001010130-201412302230.nc
+https://esgf.ceda.ac.uk/thredds/fileServer/esg_cmip6/CMIP6/CMIP/MOHC/UKESM1-0-LL/piControl/r1i1p1f2/fx/sftlf/gn/v20190705/sftlf_fx_UKESM1-0-LL_piControl_r1i1p1f2_gn.nc
+https://esgf.ceda.ac.uk/thredds/fileServer/esg_cmip6/CMIP6/CMIP/MOHC/UKESM1-0-LL/esm-hist/r2i1p1f2/day/mrso/gn/v20210122/mrso_day_UKESM1-0-LL_esm-hist_r2i1p1f2_gn_19500101-20141230.nc
+https://esgf.ceda.ac.uk/thredds/fileServer/esg_cmip6/CMIP6/CMIP/MOHC/UKESM1-0-LL/esm-hist/r2i1p1f2/Eday/mrsol/gn/v20210122/mrsol_Eday_UKESM1-0-LL_esm-hist_r2i1p1f2_gn_20000101-20091230.nc
+https://esgf.ceda.ac.uk/thredds/fileServer/esg_cmip6/CMIP6/CMIP/MOHC/UKESM1-0-LL/esm-hist/r2i1p1f2/Eday/mrsol/gn/v20210122/mrsol_Eday_UKESM1-0-LL_esm-hist_r2i1p1f2_gn_20100101-20141230.nc
