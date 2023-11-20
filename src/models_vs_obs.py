@@ -447,10 +447,7 @@ def model_vs_obs_subplots(models, cmip_variable_name, obs_product, season='all',
 
 if __name__ == '__main__':
     gpp_obs = ['FLUXCOM-ERA5', 'FLUXCOM-CRUJRAv1', 'VODCA2GPP', 'MODIS-TERRA', 'SIF-GOME2-JJ', 'SIF-GOME2-PK', 'VPM']
-    # save_amplitudes_lags('gpp', obs_products=gpp_obs, scale_by='mrsos-ESACCI')
-    save_amplitudes_lags('gpp', obs_products=gpp_obs, scale_by='mrsos-GLEAM')
-    # save_amplitudes_lags('gpp', obs_products=gpp_obs, scale_by=None)
-    # save_amplitudes_lags('mrsos', obs_products=['ESACCI', 'GLEAM'], scale_by=None)
-    # save_amplitudes_lags('vpd', obs_products=['ERA5'], scale_by=None)
-    # scatter_models_vs_obs(cmip6_models, 'gpp', 'FLUXCOM-ERA5', season='all', save=True, scale_by='mrsos-ESACCI')
-    model_vs_obs_subplots(cmip6_models, 'gpp', 'FLUXCOM-ERA5', scale_by='mrsos-GLEAM', save=True)
+    save_amplitudes_lags('gpp', obs_products=gpp_obs, scale_by='mrsos-ESACCI')
+    save_amplitudes_lags('mrsos', obs_products=['ESACCI', 'GLEAM'], scale_by=None)
+    save_amplitudes_lags('vpd', obs_products=['ERA5'], scale_by=None)
+    model_vs_obs_subplots(cmip6_models, 'gpp', 'FLUXCOM-CRUJRAv1', scale_by='mrsos-ESACCI', save=True)
