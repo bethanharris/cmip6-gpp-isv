@@ -3,12 +3,15 @@
 
 """
 Taylor diagram (Taylor, 2001) implementation.
-Note: If you have found these software useful for your research, I would
-appreciate an acknowledgment.
-"""
 
-__version__ = "Time-stamp: <2018-12-06 11:43:41 ycopin>"
-__author__ = "Yannick Copin <yannick.copin@laposte.net>"
+This code is a modification of the original by Yannick Copin,
+available at https://doi.org/10.5281/zenodo.5548061. Any reuse of
+the code here should acknowledge this original.
+This version modified by Bethan Harris for paper Harris et al.
+"Contrasting responses of vegetation productivity to intraseasonal
+rainfall in Earth System Models" to introduce radial axis scaled
+by standard deviation of reference data, plus minor formatting alterations.
+"""
 
 import numpy as NP
 import matplotlib.pyplot as PLT
@@ -98,7 +101,7 @@ class TaylorDiagram(object):
 
         ax.axis["left"].set_axis_direction("bottom")  # "X axis"
         if normalised_stdev:
-            ax.axis["left"].label.set_text("$\sigma_{\mathrm{model}}/\sigma_{\mathrm{obs}}$\n\n")
+            ax.axis["left"].label.set_text("$\sigma_{\mathrm{model}}/\sigma_{\mathrm{obs}}$\n\n\n")
         else:
             ax.axis["left"].label.set_text("Standard deviation")
         ax.axis["left"].label.set_size(16)
