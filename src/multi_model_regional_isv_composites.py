@@ -521,27 +521,10 @@ def plot_event_months(regions_to_include):
 
 
 if __name__ == '__main__':
-    # for model in cmip6_models + ['OBS']:
-    #     save_composites(model, regions_to_include)
-    # plot_event_months(regions_to_include)
-    # plot_obs = ['pr-IMERG', 'mrsos-ESACCI', 'mrsos-GLEAM', 'tasmax-ERA5', 'tasmax-MERRA2', 'gpp-FLUXCOM-ERA5', 'gpp-MODIS-TERRA', 'gpp-SIF-GOME2-JJ', 'hfls-GLEAM', 'hfls-Lu2021', 'rsds-CERES']
-    # plot_obs = []
-    # for region_number in regions_to_include:
-    #     plot_variable_comparison('pr', region_number, scale_by_max=None,
-    #                              ax=None, plot_models_legend=True, plot_obs_legend=True, title=True, 
-    #                              save=True, show=False, std_error=False, obs=['pr-IMERG'])
-    #     plot_variable_comparison('mrsos', region_number, scale_by_max='pr-IMERG',
-    #                              ax=None, plot_models_legend=True, plot_obs_legend=True, title=True, 
-    #                              save=True, show=False, std_error=False, obs=['mrsos-ESACCI', 'mrsos-GLEAM'])
-    #     plot_variable_comparison('gpp', region_number, scale_by_max='mrsos-ESACCI',
-    #                              ax=None, plot_models_legend=True, plot_obs_legend=True, title=True, 
-    #                              save=True, show=False, std_error=False, obs=['gpp-FLUXCOM-ERA5', 'gpp-MODIS-TERRA'])
-    # plot_variable_comparison('gpp', 40, scale_by_max=None,
-    #                          ax=None, plot_models_legend=True, plot_obs_legend=False, title=True, 
-    #                          save=False, show=True, std_error=False)
-    # plot_variable_comparison('vpd', 40, scale_by_max='mrsos-ESACCI',
-    #                          ax=None, plot_models_legend=True, plot_obs_legend=True, title=True, 
-    #                          save=True, show=True, std_error=False, obs=plot_obs)
+    for model in cmip6_models + ['OBS']:
+        save_composites(model, regions_to_include)
+    plot_event_months(regions_to_include)
+    plot_obs = ['pr-IMERG', 'mrsos-ESACCI', 'mrsos-GLEAM', 'tasmax-ERA5', 'tasmax-MERRA2', 'gpp-FLUXCOM-ERA5', 'gpp-MODIS-TERRA', 'gpp-SIF-GOME2-JJ', 'hfls-GLEAM', 'hfls-Lu2021', 'rsds-CERES']
     for region_number in regions_to_include:
         subplot_regional_response(region_number, scale_by_max='pr-IMERG', obs=[])
         plot_variable_comparison('gpp', region_number, scale_by_max='pr-IMERG',
