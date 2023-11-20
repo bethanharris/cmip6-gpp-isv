@@ -386,6 +386,7 @@ def plot_variable_comparison(cmip6_variable_name, scale_by_max=None,
         if scale_by_max is not None:
             composite *= scaling_factor[model]
         ax.plot(days_around, composite, label=model, color=model_colours(model), linestyle=obs_type_linestyles(model))
+        print(f'{cmip6_variable_name}, {model}: {np.nanmax(composite)}')
     handles, labels = ax.get_legend_handles_labels()
     if plot_obs_legend and len(obs_for_variable) > 0:
         obs_handles, obs_labels = obs_legend_entries(handles, labels, cmip6_variable_name)
@@ -397,7 +398,7 @@ def plot_variable_comparison(cmip6_variable_name, scale_by_max=None,
             ax.add_artist(obs_legend)
     if title:
         ax.set_title(f'{cmip6_variable_name}', fontsize=14)
-    ax.set_xlabel('days since precipitation ISV maximum', fontsize=14)
+    ax.set_xlabel('days since intraseasonal\nprecipitation maximum', fontsize=14)
     ax.set_xlim([-60, 60])
     if standardise_anomalies:
         ax.set_ylabel('standardised anomaly', fontsize=14)
@@ -467,7 +468,7 @@ def plot_variable_comparison_obs_only(cmip6_variable_name, scale_by_max=None,
                 ax.add_artist(obs_legend2)
     if title:
         ax.set_title(f'{cmip6_variable_name}', fontsize=14)
-    ax.set_xlabel('days since precipitation ISV maximum', fontsize=14)
+    ax.set_xlabel('days since intraseasonal\nprecipitation maximum', fontsize=14)
     ax.set_xlim([-60, 60])
     if standardise_anomalies:
         ax.set_ylabel('standardised anomaly', fontsize=14)
@@ -529,24 +530,6 @@ def composite_subplots():
 
 
 if __name__ == '__main__':
-    # for model in cmip6_models + ['OBS']:
-        # save_composites(model)
-    # combine_aqua_terra_ndvi()
-    # composite_subplots()
-    # plot_variable_comparison('pr', obs=['pr-IMERG'],save=True)
-    # plot_variable_comparison('mrsos', obs=['mrsos-ESACCI', 'mrsos-GLEAM'], save=True)
-    plot_variable_comparison('mrsos', obs=['mrsos-ESACCI', 'mrsos-GLEAM'], scale_by_max='pr-IMERG', save=True)
-    # plot_variable_comparison('mrsol_1.0', obs=['mrsol_1.0-GLEAM'], scale_by_max='pr-IMERG', save=True)
-    # plot_variable_comparison('mrsol_1.0', obs=['mrsol_1.0-GLEAM'], scale_by_max=None, save=True)
-    # plot_variable_comparison('mrso', scale_by_max='pr-IMERG', save=True)
-    # plot_variable_comparison('mrso', scale_by_max=None, save=True)
-    # plot_variable_comparison('rsds', obs=['rsds-CERES'], scale_by_max=None, save=True)
-    # plot_variable_comparison('rsds', obs=['rsds-CERES'], scale_by_max='pr-IMERG', save=True)
-    # plot_variable_comparison('vpd', obs=['vpd-ERA5'], scale_by_max=None, save=True)
-    # plot_variable_comparison('vpd', obs=['vpd-ERA5'], scale_by_max='pr-IMERG', save=True)
-    # plot_variable_comparison('gpp',scale_by_max='mrsos-GLEAM', obs=['gpp-FLUXCOM-ERA5','gpp-MODIS-TERRA'],save=True)
-    plot_variable_comparison('gpp',scale_by_max='pr-IMERG', obs=['gpp-FLUXCOM-ERA5','gpp-MODIS-TERRA'],save=True)
-    # plot_variable_comparison('gpp',obs=['gpp-FLUXCOM-ERA5','gpp-MODIS-TERRA'], save=True)    
-    plot_variable_comparison_obs_only('gpp',scale_by_max='pr-IMERG', obs=['gpp-FLUXCOM-ERA5',
-                             'gpp-FLUXCOM-CRUJRAv1','gpp-MODIS-TERRA','gpp-VPM','gpp-SIF-GOME2-JJ',
-                             'gpp-SIF-GOME2-PK', 'gpp-VODCA2GPP'], save=True, split_legend=True)
+    for model in cmip6_models + ['OBS']:
+        save_composites(model)
+    composite_subplots()
