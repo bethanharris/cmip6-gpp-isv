@@ -71,21 +71,13 @@ def amplitude_taylor():
                            marker=obs_shapes(obs_product), ms=10, ls='',
                            mfc=model_colours(model), mec='k')
 
-    dia.add_refstd(1., '', '')    
-    # for obs_product in obs:
-    #     obs_data = amp[obs_product]
-    #     stddev = np.std(obs_data)
-    #     marker = obs_shapes(obs_product)
-    #     dia.add_refstd(stddev, marker, obs_product)
-
-
+    dia.add_refstd(1., '', '')
     dia.add_grid()
     contours = dia.add_contours(colors='0.5')
     clbls = plt.clabel(contours, inline=1, fontsize=10, fmt='%.2f', use_clabeltext=True)
     plt.setp(clbls, path_effects=[PathEffects.withStroke(linewidth=3, foreground="w")])
     box = dia.ax.get_position()
     dia.ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
-    # obs_legend = dia.ax.legend(loc='upper left', bbox_to_anchor=(1.05, 0.5))
     model_lines = [Line2D([0], [0], marker='o', color=model_colours(model), label=model,
                           markerfacecolor=model_colours(model), lw=0, markersize=7,
                           markeredgecolor='k') for model in models]
