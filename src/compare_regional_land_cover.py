@@ -12,13 +12,20 @@ import pickle
 import regionmask
 
 
-models = ['UKESM1-0-LL', 'ACCESS-ESM1-5', 'CNRM-ESM2-1']
+models = ['ACCESS-ESM1-5', 'CNRM-ESM2-1', 'UKESM1-0-LL']
 
 variants = {'ACCESS-ESM1-5': 'r1i1p1f1',
            'BCC-CSM2-MR': 'r1i1p1f1',
            'CNRM-ESM2-1': 'r1i1p1f3',
            'NorESM2-LM': 'r1i1p1f1',
            'UKESM1-0-LL': 'r2i1p1f2'}
+
+
+lc_colours = {'treeFrac': '#117733',
+              'baresoilFrac': '#ffee88',
+              'cropFrac': '#44aa88',
+              'grassFrac': '#99bb55',
+              'shrubFrac': '#ddcc66'}
 
 ar6_land = regionmask.defined_regions.ar6.land
 region_abbrevs = ar6_land.abbrevs
@@ -119,35 +126,46 @@ def get_region_frac(fracs, model, region_number, lc_type):
     return region_frac
 
 
-def plot_region_fracs(region_number, save=False):
+def plot_region_fracs(region_number, ax=None, title=True, save=False, show=False, compress_width=False):
     fracs = all_region_fractions_total_area()
     all_lcs = [list(fracs[model].keys()) for model in models]
     lc_types = list(set([lc for i in all_lcs for lc in i]))
+    lc_types.sort()
     if 'shrubFrac' in lc_types:
         lc_types.append(lc_types.pop(lc_types.index('shrubFrac')))
     total_lc = 0
-    fig, ax = plt.subplots(figsize=(6, 4))
+    new_figure = (ax is None)
+    if new_figure:
+        fig, ax = plt.subplots(figsize=(6, 4))
     for lc in lc_types:
         frac_all_models = np.array([get_region_frac(fracs, model, region_number, lc) for model in models])
-        plt.bar(models, frac_all_models, bottom=total_lc, label=lc[:-4])
+        b = ax.bar(models, frac_all_models, bottom=total_lc, label=lc[:-4], color=lc_colours[lc])
         total_lc += frac_all_models
     residual = 100. - total_lc
     ax.bar(models, residual, bottom=total_lc, label='other', color='w', hatch='//')
     box = ax.get_position()
+    width_factor = 0.4 if compress_width else 0.8
+    legend_position = 0.4 if compress_width else 0.5
     ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
     ax.set_ylim([0, 100])
-    ax.set_ylabel('percent of region area', fontsize=14)
-    ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
-    ax.set_title(region_abbrevs[region_number])
+    ax.set_ylabel('region area (%)', fontsize=14)
+    handles, labels = ax.get_legend_handles_labels()
+    ax.legend(reversed(handles), reversed(labels), loc='center left', bbox_to_anchor=(1, 0.5))
+    if title:
+        ax.set_title(region_abbrevs[region_number])
     ax.tick_params(labelsize=14)
-    ax.tick_params(axis='x', labelsize=12, rotation=10)
-    if save:
-        save_dir = '../data/figures/regional_land_cover/'
-        os.system(f'mkdir -p {save_dir}')
-        plt.savefig(f'{save_dir}/landCover_area_percents_{region_abbrevs[region_number]}.png', bbox_inches='tight', dpi=300)
-        plt.close()
-    else:
-        plt.show()
+    label_rotation = 15 if compress_width else 10
+    ax.tick_params(axis='x', labelsize=12, rotation=label_rotation)
+    if new_figure:
+        if save:
+            save_dir = '../data/figures/regional_land_cover/'
+            os.system(f'mkdir -p {save_dir}')
+            plt.savefig(f'{save_dir}/landCover_area_percents_{region_abbrevs[region_number]}.png', bbox_inches='tight', dpi=300)
+            plt.close()
+        if show:
+            plt.show()
+        else:
+            plt.close()
 
 
 if __name__ == '__main__':
