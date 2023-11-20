@@ -136,7 +136,6 @@ def remove_nans(tuple_of_lists):
 def compare_trends_mrsos():
     models = ['ACCESS-ESM1-5', 'BCC-CSM2-MR', 'CNRM-ESM2-1', 'NorESM2-LM', 'UKESM1-0-LL']
     gpp_products = ['FLUXCOM-ERA5', 'FLUXCOM-CRUJRAv1', 'VODCA2GPP', 'MODIS-TERRA', 'SIF-GOME2-JJ', 'SIF-GOME2-PK', 'VPM']
-    # gpp_products = ['FLUXCOM-ERA5']
     mrsos_obs = 'ESACCI'
     model_types = []
     mrsos_all_amps = []
@@ -193,7 +192,6 @@ def compare_trends_mrsos():
 def compare_trends_vpd():
     models = ['ACCESS-ESM1-5', 'CNRM-ESM2-1', 'NorESM2-LM', 'UKESM1-0-LL']
     gpp_products = ['FLUXCOM-ERA5', 'FLUXCOM-CRUJRAv1', 'VODCA2GPP', 'MODIS-TERRA', 'SIF-GOME2-JJ', 'SIF-GOME2-PK', 'VPM']
-    # gpp_products = ['FLUXCOM-ERA5']
     vpd_obs = 'ERA5'
     model_types = []
     vpd_all_amps = []
@@ -223,7 +221,6 @@ def compare_trends_vpd():
                        'gpp_amp': gpp_all_amps,
                        'model': model_types
     })
-    # df_amps.dropna(inplace=True)
     m = R.lm('vpd_amp ~ model*gpp_amp', df)
     p = R.pairs(emmeans.emtrends(m, 'model', var="gpp_amp"))
     print(p)
@@ -233,7 +230,6 @@ def compare_trends_vpd():
                        'gpp_lag': gpp_all_lags,
                        'model': model_types
     })
-    # df_amps.dropna(inplace=True)
     m = R.lm('vpd_amp ~ model*gpp_lag', df)
     p = R.pairs(emmeans.emtrends(m, 'model', var="gpp_lag"))
     print(p)
@@ -247,6 +243,7 @@ def compare_trends_vpd():
     p = R.pairs(emmeans.emtrends(m, 'model', var="gpp_final_amp"))
     print(p)
     R.summary(p).to_csvfile(f'../data/amplitudes_lags/{analysis_version_name}/emtrends_vpd_final_amplitude.csv')
+
 
 if __name__ == '__main__':
     compare_trends_mrsos()
