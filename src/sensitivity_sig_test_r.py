@@ -14,7 +14,7 @@ emmeans = importr('emmeans')
 pandas2ri.activate()
 R = ro.r
 
-analysis_version_name = 'rolling_7d_mean_stdev_maskfrozen_regrid_1_by_1_deg_standardised_CCI-SM-mask'
+analysis_version_name = 'rolling_7d_mean_stdev_maskfrozen_60S60N_regrid_1_by_1_deg_standardised_CCI-SM-mask'
 os.system(f'mkdir -p ../data/amplitudes_lags/{analysis_version_name}')
 
 
@@ -112,7 +112,7 @@ def all_region_amps_lags(model, variable_name, obs_product, force_positive=False
     lags = []
     final_amplitudes = []
     regions_to_include = np.arange(46)
-    regions_to_include = np.delete(regions_to_include, [0, 20, 36])
+    regions_to_include = np.delete(regions_to_include, [0, 20, 28, 36])
     for region_number in regions_to_include:
         amplitude, lag, final_amplitude, = amplitudes_and_lag(model, variable_name, region_number,
                                                               obs_product,
@@ -165,28 +165,34 @@ def compare_trends_mrsos():
                        'gpp_amp': gpp_all_amps,
                        'model': model_types
     })
-    m = R.lm('mrsos_amp ~ model*gpp_amp', df)
-    p = R.pairs(emmeans.emtrends(m, 'model', var="gpp_amp"))
+    m = R.lm('gpp_amp ~ model*mrsos_amp', df)
+    trends_per_model = emmeans.emtrends(m, 'model', var="mrsos_amp")
+    R.summary(trends_per_model).to_csvfile(f'../data/amplitudes_lags/{analysis_version_name}/emtrends_mrsos_amplitude.csv')
+    p = R.pairs(trends_per_model)
     print(p)
-    R.summary(p).to_csvfile(f'../data/amplitudes_lags/{analysis_version_name}/emtrends_mrsos_amplitude.csv')
+    R.summary(p).to_csvfile(f'../data/amplitudes_lags/{analysis_version_name}/emtrends_pairwise_mrsos_amplitude.csv')
 
     df = pd.DataFrame({'mrsos_amp': mrsos_all_amps,
                        'gpp_lag': gpp_all_lags,
                        'model': model_types
     })
-    m = R.lm('mrsos_amp ~ model*gpp_lag', df)
-    p = R.pairs(emmeans.emtrends(m, 'model', var="gpp_lag"))
+    m = R.lm('gpp_lag ~ model*mrsos_amp', df)
+    trends_per_model = emmeans.emtrends(m, 'model', var="mrsos_amp")
+    R.summary(trends_per_model).to_csvfile(f'../data/amplitudes_lags/{analysis_version_name}/emtrends_mrsos_lag.csv')
+    p = R.pairs(trends_per_model)
     print(p)
-    R.summary(p).to_csvfile(f'../data/amplitudes_lags/{analysis_version_name}/emtrends_mrsos_lag.csv')
+    R.summary(p).to_csvfile(f'../data/amplitudes_lags/{analysis_version_name}/emtrends_pairwise_mrsos_lag.csv')
 
     df = pd.DataFrame({'mrsos_final_amp': mrsos_all_final_amps,
                        'gpp_final_amp': gpp_all_final_amps,
                        'model': model_types
     })
-    m = R.lm('mrsos_final_amp ~ model*gpp_final_amp', df)
-    p = R.pairs(emmeans.emtrends(m, 'model', var="gpp_final_amp"))
+    m = R.lm('gpp_final_amp ~ model*mrsos_final_amp', df)
+    trends_per_model = emmeans.emtrends(m, 'model', var="mrsos_final_amp")
+    R.summary(trends_per_model).to_csvfile(f'../data/amplitudes_lags/{analysis_version_name}/emtrends_mrsos_final_amplitude.csv')
+    p = R.pairs(trends_per_model)
     print(p)
-    R.summary(p).to_csvfile(f'../data/amplitudes_lags/{analysis_version_name}/emtrends_mrsos_final_amp.csv')
+    R.summary(p).to_csvfile(f'../data/amplitudes_lags/{analysis_version_name}/emtrends_pairwise_mrsos_final_amplitude.csv')
 
 
 def compare_trends_vpd():
@@ -221,28 +227,34 @@ def compare_trends_vpd():
                        'gpp_amp': gpp_all_amps,
                        'model': model_types
     })
-    m = R.lm('vpd_amp ~ model*gpp_amp', df)
-    p = R.pairs(emmeans.emtrends(m, 'model', var="gpp_amp"))
+    m = R.lm('gpp_amp ~ model*vpd_amp', df)
+    trends_per_model = emmeans.emtrends(m, 'model', var="vpd_amp")
+    R.summary(trends_per_model).to_csvfile(f'../data/amplitudes_lags/{analysis_version_name}/emtrends_vpd_amplitude.csv')
+    p = R.pairs(trends_per_model)
     print(p)
-    R.summary(p).to_csvfile(f'../data/amplitudes_lags/{analysis_version_name}/emtrends_vpd_amplitude.csv')
+    R.summary(p).to_csvfile(f'../data/amplitudes_lags/{analysis_version_name}/emtrends_pairwise_vpd_amplitude.csv')
 
     df = pd.DataFrame({'vpd_amp': vpd_all_amps,
                        'gpp_lag': gpp_all_lags,
                        'model': model_types
     })
-    m = R.lm('vpd_amp ~ model*gpp_lag', df)
-    p = R.pairs(emmeans.emtrends(m, 'model', var="gpp_lag"))
+    m = R.lm('gpp_lag ~ model*vpd_amp', df)
+    trends_per_model = emmeans.emtrends(m, 'model', var="vpd_amp")
+    R.summary(trends_per_model).to_csvfile(f'../data/amplitudes_lags/{analysis_version_name}/emtrends_vpd_lag.csv')
+    p = R.pairs(trends_per_model)
     print(p)
-    R.summary(p).to_csvfile(f'../data/amplitudes_lags/{analysis_version_name}/emtrends_vpd_lag.csv')
+    R.summary(p).to_csvfile(f'../data/amplitudes_lags/{analysis_version_name}/emtrends_pairwise_vpd_lag.csv')
 
     df = pd.DataFrame({'vpd_final_amp': vpd_all_final_amps,
                        'gpp_final_amp': gpp_all_final_amps,
                        'model': model_types
     })
-    m = R.lm('vpd_final_amp ~ model*gpp_final_amp', df)
-    p = R.pairs(emmeans.emtrends(m, 'model', var="gpp_final_amp"))
+    m = R.lm('gpp_final_amp ~ model*vpd_final_amp', df)
+    trends_per_model = emmeans.emtrends(m, 'model', var="vpd_final_amp")
+    R.summary(trends_per_model).to_csvfile(f'../data/amplitudes_lags/{analysis_version_name}/emtrends_vpd_final_amplitude.csv')
+    p = R.pairs(trends_per_model)
     print(p)
-    R.summary(p).to_csvfile(f'../data/amplitudes_lags/{analysis_version_name}/emtrends_vpd_final_amplitude.csv')
+    R.summary(p).to_csvfile(f'../data/amplitudes_lags/{analysis_version_name}/emtrends_pairwise_vpd_final_amplitude.csv')
 
 
 if __name__ == '__main__':
