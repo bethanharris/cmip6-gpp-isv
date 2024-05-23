@@ -1,7 +1,9 @@
 # cmip6-gpp-isv
 Code for Harris et al. "Contrasting responses of vegetation productivity to intraseasonal rainfall in Earth System Models"
 
-This repository contains code to reproduce the analysis and figures of Harris et al. (2023) *Contrasting responses of vegetation productivity to intraseasonal rainfall in Earth System Models*, submitted to Earth System Dynamics. The code includes automatic downloading and processing of CMIP6 model data, but does not include the processing of observational datasets, which must be done separately. Details of the Python enviroments used to run the analysis are included in [cmip6-gpp-isv.yml](cmip6-gpp-isv.yml) and [r_env.yml](r_env.yml). All analysis was run in the environment detailed in [cmip6-gpp-isv.yml](cmip6-gpp-isv.yml), other than [sensitivity_sig_tests.py](src/sensitivity_sig_tests.py), which requires the environment from [r_env.yml](r_env.yml) due to the use of rpy2 to run R packages.
+This repository contains code to reproduce the analysis and figures of Harris et al. (2024) *Contrasting responses of vegetation productivity to intraseasonal rainfall in Earth System Models*, submitted to Earth System Dynamics. The paper can be read at <https://doi.org/10.5194/esd-2024-2>.
+
+The code includes automatic downloading and processing of CMIP6 model data, but does not include the processing of observational datasets, which must be done separately. Details of the Python enviroments used to run the analysis are included in [cmip6-gpp-isv.yml](cmip6-gpp-isv.yml) and [r_env.yml](r_env.yml). All analysis was run in the environment detailed in [cmip6-gpp-isv.yml](cmip6-gpp-isv.yml), other than [sensitivity_sig_tests.py](src/sensitivity_sig_tests.py), which requires the environment from [r_env.yml](r_env.yml) due to the use of rpy2 to run R packages.
 
 # Running the analysis
 
