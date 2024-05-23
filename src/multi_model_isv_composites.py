@@ -18,11 +18,11 @@ regrid_label = 'regrid_1_by_1_deg'
 standardise_anomalies = True
 use_obs_sm_mask = True # only analyse pixels with valid ESA CCI soil moisture data
                        # Note this doesn't work for native model resolution data.
-region_name = '60S80N'
+region_name = '60S60N'
 region_lon_west = -180.
 region_lon_east = 180.
 region_lat_south = -60.
-region_lat_north = 80.
+region_lat_north = 60.
 season_months = np.arange(1, 13).astype(int)
 
 ### END OF CONFIGURATION SECTION ###
@@ -346,6 +346,7 @@ def obs_legend_entries(handles, labels, cmip6_variable_name):
     obs_handles_labels = [(h, l.split(label_prefix)[-1]) for h, l in zip(handles, labels) if l.startswith(label_prefix)]
     obs_handles = [hl[0] for hl in obs_handles_labels]
     obs_labels = [hl[1] for hl in obs_handles_labels]
+    obs_labels[:] = [x if x != 'ESACCI' else 'ESA CCI' for x in obs_labels]
     return obs_handles, obs_labels
 
 
@@ -392,7 +393,8 @@ def plot_variable_comparison(cmip6_variable_name, scale_by_max=None,
         obs_handles, obs_labels = obs_legend_entries(handles, labels, cmip6_variable_name)
         obs_legend = ax.legend(obs_handles, obs_labels, loc='lower right', fontsize=10)
     if plot_models_legend:
-        model_handles, model_labels = single_obs_legend_entry(handles, labels)        
+        model_handles, model_labels = single_obs_legend_entry(handles, labels)
+        model_labels = [l if l!='OBS' else 'Observations' for l in model_labels]
         ax.legend(model_handles, model_labels, loc='upper left', fontsize=10)
         if plot_obs_legend and len(obs_for_variable) > 0: # need to add the obs legend back on if it exists or won't get both legends showing
             ax.add_artist(obs_legend)
@@ -524,8 +526,8 @@ def composite_subplots():
     plt.tight_layout()
     save_dir = f'../figures/multimodel/{composite_name}'
     os.system(f'mkdir -p {save_dir}')
-    plt.savefig(f'{save_dir}/composite_subplots.png', dpi=400, bbox_inches='tight')
-    plt.savefig(f'{save_dir}/composite_subplots.pdf', dpi=400, bbox_inches='tight')
+    plt.savefig(f'{save_dir}/composite_subplots_final.png', dpi=600, bbox_inches='tight')
+    plt.savefig(f'{save_dir}/composite_subplots_final.pdf', dpi=600, bbox_inches='tight')
     plt.show()
 
 
