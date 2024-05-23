@@ -18,7 +18,7 @@ import calendar
 regrid_label = 'regrid_1_by_1_deg'
 standardise_anomalies = True
 use_obs_sm_mask = True # only include model data at grid boxes where there are ESA CCI SM observations
-analysis_version_name = 'rolling_7d_mean_stdev_maskfrozen'
+analysis_version_name = 'rolling_7d_mean_stdev_maskfrozen_60S60N'
 season_months = np.arange(1, 13).astype(int) # include intraseasonal maxima only if peaking in these months
 regions_to_include = np.arange(46) # all land regions
 
@@ -158,11 +158,10 @@ def filter_precip(precip_cube):
         precip_anom = np.expand_dims(precip_anom, axis=2)
     precip_lowfreq = np.ones_like(precip_anom, dtype=np.float32)*np.nan
     for i in tqdm(range(number_lats), desc='filtering precip to ISV'):
-        if lats[i] > -60:
+        if lats[i] > -60 and lats[i]<60:
             for j in range(number_lons):
                 precip_lowfreq[:, i, j] = lanczos_lowpass_filter_missing_data(precip_anom[:, i, j], 1./25., 
                                                                               window=121, min_slice_size=365)
-
     return precip_lowfreq
 
 
