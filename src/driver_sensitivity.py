@@ -7,10 +7,11 @@ import pandas as pd
 from models_vs_obs import plot_linear_regression, gpp_obs_only_colours
 
 
-cmip6_models = ['ACCESS-ESM1-5', 'BCC-CSM2-MR', 'CNRM-ESM2-1', 'NorESM2-LM', 'UKESM1-0-LL']
+# cmip6_models = ['ACCESS-ESM1-5', 'BCC-CSM2-MR', 'CNRM-ESM2-1', 'NorESM2-LM', 'UKESM1-0-LL']
+cmip6_models = ['ACCESS-ESM1-5', 'CNRM-ESM2-1', 'NorESM2-LM', 'UKESM1-0-LL'] # don't include BCC-CSM for VPD or mrsol_1.0
 gpp_obs_products = ['FLUXCOM-ERA5', 'FLUXCOM-CRUJRAv1',  'MODIS-TERRA', 'VPM', 'SIF-GOME2-JJ', 'SIF-GOME2-PK', 'VODCA2GPP']
 
-analysis_version_name = 'rolling_7d_mean_stdev_maskfrozen_regrid_1_by_1_deg_standardised_CCI-SM-mask'
+analysis_version_name = 'rolling_7d_mean_stdev_maskfrozen_60S60N_regrid_1_by_1_deg_standardised_CCI-SM-mask'
 amplitude_lag_save_dir = f'../data/amplitudes_lags/{analysis_version_name}'
 
 
@@ -125,12 +126,12 @@ def scatter_mrsos_vs_vpd(mrsos_obs_product, vpd_obs_product, season='all',
         plot_linear_regression(lag_ax, model_vpd_amps, model_mrsos_lags, model, legend_r_only=legend_r_only)
         plot_linear_regression(final_amp_ax, model_vpd_final_amps, model_mrsos_final_amps, model, legend_r_only=legend_r_only)
 
-    amp_ax.set_ylabel('mrsos peak amplitude', fontsize=14)
-    amp_ax.set_xlabel('vpd peak amplitude', fontsize=14)
-    lag_ax.set_ylabel('mrsos lag (days)', fontsize=14)
-    lag_ax.set_xlabel('vpd peak amplitude', fontsize=14)
-    final_amp_ax.set_ylabel('mrsos post-event amplitude', fontsize=14)
-    final_amp_ax.set_xlabel('vpd post-event amplitude', fontsize=14)
+    amp_ax.set_ylabel('SSM peak amplitude', fontsize=14)
+    amp_ax.set_xlabel('VPD peak amplitude', fontsize=14)
+    lag_ax.set_ylabel('SSM lag (days)', fontsize=14)
+    lag_ax.set_xlabel('VPD peak amplitude', fontsize=14)
+    final_amp_ax.set_ylabel('SSM post-event amplitude', fontsize=14)
+    final_amp_ax.set_xlabel('VPD post-event amplitude', fontsize=14)
     for ax in [amp_ax, lag_ax, final_amp_ax]:
         if legend_outside_plot:
             box = ax.get_position()
@@ -160,13 +161,13 @@ def scatter_driver_vs_gpp(driver_variable_name, gpp_obs_product, driver_obs_prod
                           amp_ax=None, lag_ax=None, final_amp_ax=None, legend_r_only=False,
                           legend_outside_plot=False, save=False):
     if amp_ax is None:
-        amp_fig = plt.figure(figsize=(7, 3.5))
+        amp_fig = plt.figure(figsize=(6, 4.5))
         amp_ax = plt.gca()
     if lag_ax is None:
-        lag_fig = plt.figure(figsize=(7, 3.5))
+        lag_fig = plt.figure(figsize=(6, 4.5))
         lag_ax = plt.gca()
     if final_amp_ax is None:
-        final_amp_fig = plt.figure(figsize=(7, 3.5))
+        final_amp_fig = plt.figure(figsize=(6, 4.5))
         final_amp_ax = plt.gca()
 
     season_label = '' if season == 'all' else f'_{season}'
@@ -222,12 +223,15 @@ def scatter_driver_vs_gpp(driver_variable_name, gpp_obs_product, driver_obs_prod
         plot_linear_regression(lag_ax, model_driver_amps, model_gpp_lags, model, legend_r_only=legend_r_only)
         plot_linear_regression(final_amp_ax, model_driver_final_amps, model_gpp_final_amps, model, legend_r_only=legend_r_only)
 
-    amp_ax.set_ylabel('gpp peak amplitude', fontsize=14)
-    amp_ax.set_xlabel(f'{driver_variable_name} peak amplitude', fontsize=14)
-    lag_ax.set_ylabel('gpp lag (days)', fontsize=14)
-    lag_ax.set_xlabel(f'{driver_variable_name} peak amplitude', fontsize=14)
-    final_amp_ax.set_ylabel('gpp post-event amplitude', fontsize=14)
-    final_amp_ax.set_xlabel(f'{driver_variable_name} post-event amplitude', fontsize=14)
+    xlabel_driver = 'SSM' if driver_variable_name=='mrsos' else driver_variable_name.upper()
+    if driver_variable_name=='mrsol_1.0':
+        xlabel_driver = '1m RZSM'
+    amp_ax.set_ylabel('GPP peak amplitude', fontsize=14)
+    amp_ax.set_xlabel(f'{xlabel_driver} peak amplitude', fontsize=14)
+    lag_ax.set_ylabel('GPP lag (days)', fontsize=14)
+    lag_ax.set_xlabel(f'{xlabel_driver} peak amplitude', fontsize=14)
+    final_amp_ax.set_ylabel('GPP post-event amplitude', fontsize=14)
+    final_amp_ax.set_xlabel(f'{xlabel_driver} post-event amplitude', fontsize=14)
     for ax in [amp_ax, lag_ax, final_amp_ax]:
         if legend_outside_plot:
             box = ax.get_position()
@@ -236,6 +240,7 @@ def scatter_driver_vs_gpp(driver_variable_name, gpp_obs_product, driver_obs_prod
             ax.legend(loc='center left', bbox_to_anchor=(1.05, 0.5))
         else:
             ax.legend(loc='best', fontsize=10, handletextpad=0.1)
+        ax.tick_params(labelsize=12)
     if save:
         scale_label = ''
         plt.figure(amp_fig)
@@ -243,12 +248,15 @@ def scatter_driver_vs_gpp(driver_variable_name, gpp_obs_product, driver_obs_prod
         fig_save_dir = f'../figures/multimodel/regional/driver_sensitivity/{analysis_version_name}'
         os.system(f'mkdir -p {fig_save_dir}')
         plt.savefig(f'{fig_save_dir}/gpp_vs_{driver_variable_name}_amplitude{scale_label}.png', dpi=400, bbox_inches='tight')
+        plt.savefig(f'{fig_save_dir}/gpp_vs_{driver_variable_name}_amplitude{scale_label}.pdf', dpi=400, bbox_inches='tight')
         plt.figure(lag_fig)
         plt.tight_layout()
         plt.savefig(f'{fig_save_dir}/gpp_lag_vs_{driver_variable_name}_amplitude{scale_label}.png', dpi=400, bbox_inches='tight')
+        plt.savefig(f'{fig_save_dir}/gpp_lag_vs_{driver_variable_name}_amplitude{scale_label}.pdf', dpi=400, bbox_inches='tight')
         plt.figure(final_amp_fig)
         plt.tight_layout()
         plt.savefig(f'{fig_save_dir}/gpp_vs_{driver_variable_name}_final_amplitudes{scale_label}.png', dpi=400, bbox_inches='tight')
+        plt.savefig(f'{fig_save_dir}/gpp_vs_{driver_variable_name}_final_amplitudes{scale_label}.pdf', dpi=400, bbox_inches='tight')
         plt.close('all')
 
 
@@ -272,9 +280,9 @@ def driver_subplots():
                loc='upper center', bbox_to_anchor=(0.5, 1.05), fontsize=13,
                handletextpad=-0.2, columnspacing=0.5)
 
-    plt.savefig(f'../figures/multimodel/regional/driver_sensitivity/{analysis_version_name}/driver_sensitivity_subplots_CRUJRAv1.png', 
+    plt.savefig(f'../figures/multimodel/regional/driver_sensitivity/{analysis_version_name}/driver_sensitivity_subplots_CRUJRAv1_final.png', 
                 dpi=400, bbox_inches='tight')
-    plt.savefig(f'../figures/multimodel/regional/driver_sensitivity/{analysis_version_name}/driver_sensitivity_subplots_CRUJRAv1.pdf', 
+    plt.savefig(f'../figures/multimodel/regional/driver_sensitivity/{analysis_version_name}/driver_sensitivity_subplots_CRUJRAv1_final.pdf', 
                 dpi=400, bbox_inches='tight')
     plt.show()
 
@@ -320,12 +328,13 @@ def scatter_driver_vs_gpp_obs_only(driver_variable_name, driver_obs_product, sea
         plot_linear_regression(lag_ax, driver_amplitude_data[driver_obs_product], gpp_lag_data[gpp_obs], f'OBS-{gpp_obs}', legend_r_only=legend_r_only, use_obs_colours=True)
         plot_linear_regression(final_amp_ax, driver_final_amplitude_data[driver_obs_product], gpp_final_amplitude_data[gpp_obs], f'OBS-{gpp_obs}', legend_r_only=legend_r_only, use_obs_colours=True)
 
-    amp_ax.set_ylabel('gpp peak amplitude', fontsize=14)
-    amp_ax.set_xlabel(f'{driver_variable_name} peak amplitude', fontsize=14)
-    lag_ax.set_ylabel('gpp lag (days)', fontsize=14)
-    lag_ax.set_xlabel(f'{driver_variable_name} peak amplitude', fontsize=14)
-    final_amp_ax.set_ylabel('gpp post-event amplitude', fontsize=14)
-    final_amp_ax.set_xlabel(f'{driver_variable_name} post-event amplitude', fontsize=14)
+    xlabel_driver = 'SSM' if driver_variable_name=='mrsos' else driver_variable_name.upper()
+    amp_ax.set_ylabel('GPP peak amplitude', fontsize=14)
+    amp_ax.set_xlabel(f'{xlabel_driver} peak amplitude', fontsize=14)
+    lag_ax.set_ylabel('GPP lag (days)', fontsize=14)
+    lag_ax.set_xlabel(f'{xlabel_driver} peak amplitude', fontsize=14)
+    final_amp_ax.set_ylabel('GPP post-event amplitude', fontsize=14)
+    final_amp_ax.set_xlabel(f'{xlabel_driver} post-event amplitude', fontsize=14)
     for ax in [amp_ax, lag_ax, final_amp_ax]:
         if legend_outside_plot:
             box = ax.get_position()
@@ -371,14 +380,18 @@ def driver_subplots_gpp_obs_only():
                loc='upper center', bbox_to_anchor=(0.5, 1.05), fontsize=13,
                handletextpad=-0.2, columnspacing=0.5)
 
-    plt.savefig(f'../figures/multimodel/regional/driver_sensitivity/{analysis_version_name}/driver_sensitivity_subplots_gpp_obs_only.png', 
+    plt.savefig(f'../figures/multimodel/regional/driver_sensitivity/{analysis_version_name}/driver_sensitivity_subplots_gpp_obs_only_final.png', 
                 dpi=400, bbox_inches='tight')
-    plt.savefig(f'../figures/multimodel/regional/driver_sensitivity/{analysis_version_name}/driver_sensitivity_subplots_gpp_obs_only.pdf', 
+    plt.savefig(f'../figures/multimodel/regional/driver_sensitivity/{analysis_version_name}/driver_sensitivity_subplots_gpp_obs_only_final.pdf', 
                 dpi=400, bbox_inches='tight')
     plt.show()
 
 
 
 if __name__ == '__main__':
+    scatter_driver_vs_gpp('mrsol_1.0', 'FLUXCOM-CRUJRAv1', 'GLEAM', season='all', 
+                          amp_ax=None, lag_ax=None, final_amp_ax=None, legend_r_only=False,
+                          legend_outside_plot=False, save=True)
     driver_subplots()
     driver_subplots_gpp_obs_only()
+
