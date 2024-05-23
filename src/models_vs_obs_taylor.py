@@ -8,7 +8,7 @@ import matplotlib.patheffects as PathEffects
 from matplotlib.transforms import Bbox
 
 
-analysis_version = 'rolling_7d_mean_stdev_maskfrozen_regrid_1_by_1_deg_standardised_CCI-SM-mask'
+analysis_version = 'rolling_7d_mean_stdev_maskfrozen_60S60N_regrid_1_by_1_deg_standardised_CCI-SM-mask'
 amplitude_lag_save_dir = f'../data/amplitudes_lags/{analysis_version}'
 
 
@@ -174,13 +174,13 @@ def subplots_taylor():
     legend_ax.add_artist(model_legend)
     legend_ax.axis('off')
 
-    amp_dia._ax.set_title("$\\bf{(a)}$ " + 'gpp peak amplitude', pad=15, fontsize=16)
-    final_amp_dia._ax.set_title("$\\bf{(b)}$ " + 'gpp post-event amplitude', pad=15, fontsize=16)
-    lag_dia._ax.set_title("$\\bf{c)}$ " + 'gpp lag', pad=40, fontsize=16)
+    amp_dia._ax.set_title("$\\bf{(a)}$ " + 'GPP peak amplitude', pad=15, fontsize=16)
+    final_amp_dia._ax.set_title("$\\bf{(b)}$ " + 'GPP post-event amplitude', pad=15, fontsize=16)
+    lag_dia._ax.set_title("$\\bf{c)}$ " + 'GPP lag', pad=40, fontsize=16)
     fig_save_dir = f'../figures/multimodel/regional/taylor_diagrams/{analysis_version}'
     os.system(f'mkdir -p {fig_save_dir}')
     plt.tight_layout()
-    plt.subplots_adjust(hspace=0.4, wspace=-0.05)
+    plt.subplots_adjust(hspace=0.5, wspace=-0.05)
     plt.savefig(f'{fig_save_dir}/taylor_diagram_gpp_subplots_normalised_std.png', dpi=400)
     plt.savefig(f'{fig_save_dir}/taylor_diagram_gpp_subplots_normalised_std.pdf', dpi=400)
     plt.show()
