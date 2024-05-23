@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.lines as mlines
 import iris
 import xarray as xr
 import scipy.stats
@@ -9,7 +10,7 @@ import regionmask
 import pandas as pd
 
 
-analysis_version_name = 'rolling_7d_mean_stdev_maskfrozen'
+analysis_version_name = 'rolling_7d_mean_stdev_maskfrozen_60S60N'
 regrid_label = 'regrid_1_by_1_deg'
 standardise_anomalies = True
 use_obs_sm_mask = True
@@ -299,7 +300,13 @@ def plot_linear_regression(ax, x, y, model, legend_r_only=False, use_obs_colours
         # model_label = f'{model_initial}: r={regression.rvalue:.2f}'
         model_label = f'r={regression.rvalue:.2f}'
     else:
-        model_name = model[4:] if model.startswith('OBS') else model
+        if model == 'OBS':
+            model_name = model
+        elif model.startswith('OBS'):
+            model_name = model[4:]
+        else:
+            model_name = model
+        # model_name = model[4:] if model.startswith('OBS') else model
         model_label = f'{model_name}, r={regression.rvalue:.2f}'
     if regression.pvalue < 0.05:
         model_label += '*'
@@ -344,9 +351,9 @@ def scatter_models_vs_obs(models, cmip_variable_name, obs_product, season='all',
         plot_linear_regression(final_amp_ax, region_final_amps_obs, region_final_amps, model, legend_r_only=legends_in_frame)
 
     season_title = '' if season=='all' else f' {season}'
-    amp_title = f'{cmip_variable_name} peak amplitude' + season_title
-    lag_title = f'{cmip_variable_name} lag' + season_title + ' (days)'
-    final_amp_title = f'{cmip_variable_name} post-event amplitude' + season_title
+    amp_title = f'{cmip_variable_name.upper()} peak amplitude' + season_title
+    lag_title = f'{cmip_variable_name.upper()} lag' + season_title + ' (days)'
+    final_amp_title = f'{cmip_variable_name.upper()} post-event amplitude' + season_title
     if subplot_labels:
         amp_title = "$\\bf{(b)}$ " + amp_title
         lag_title = "$\\bf{(d)}$ " + lag_title
@@ -355,16 +362,19 @@ def scatter_models_vs_obs(models, cmip_variable_name, obs_product, season='all',
     lag_ax.set_title(lag_title, fontsize=14)
     final_amp_ax.set_title(final_amp_title, fontsize=14)
     for ax in [amp_ax, lag_ax, final_amp_ax]:
-        ax.set_xlabel('obs', fontsize=14)
+        ax.set_xlabel('observation', fontsize=14)
         ax.set_ylabel('model', fontsize=14)
         ax.tick_params(labelsize=14)
         if legends_in_frame:
-            ax.legend(loc='best', handletextpad=0.1)
+            model_legend = ax.legend(loc='best', handletextpad=0.1)
         else:
             box = ax.get_position()
             ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
-            ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+            model_legend = ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
         add_identity(ax, color='gray', alpha=0.5, zorder=0)
+        identity_line_marker = mlines.Line2D([], [], color='gray', linestyle='-', alpha=0.5, label='1:1 line')
+        ax.legend(handles=[identity_line_marker], loc='lower right')
+        ax.add_artist(model_legend)
     if save:
         season_label = '' if season == 'all' else f'_{season}'
         save_dir = f'../figures/multimodel/regional/model_vs_obs_scatters/{composite_name}'
@@ -440,14 +450,17 @@ def model_vs_obs_subplots(models, cmip_variable_name, obs_product, season='all',
         if scale_by is not None:
             save_filename += f'_scale_by_{scale_by}'
         os.system(f'mkdir -p {save_dir}')
-        plt.savefig(f'{save_dir}/{save_filename}.png', dpi=400, bbox_inches='tight')
-        plt.savefig(f'{save_dir}/{save_filename}.pdf', dpi=400, bbox_inches='tight')
+        plt.savefig(f'{save_dir}/{save_filename}_final.png', dpi=400, bbox_inches='tight')
+        plt.savefig(f'{save_dir}/{save_filename}_final.pdf', dpi=400, bbox_inches='tight')
     plt.show()
 
 
 if __name__ == '__main__':
     gpp_obs = ['FLUXCOM-ERA5', 'FLUXCOM-CRUJRAv1', 'VODCA2GPP', 'MODIS-TERRA', 'SIF-GOME2-JJ', 'SIF-GOME2-PK', 'VPM']
     save_amplitudes_lags('gpp', obs_products=gpp_obs, scale_by='mrsos-ESACCI')
+    save_amplitudes_lags('gpp', obs_products=gpp_obs, scale_by='mrsos-GLEAM')
+    save_amplitudes_lags('gpp', obs_products=gpp_obs, scale_by=None)
+    save_amplitudes_lags('mrsol_1.0', obs_products=['GLEAM'], scale_by=None)
     save_amplitudes_lags('mrsos', obs_products=['ESACCI', 'GLEAM'], scale_by=None)
     save_amplitudes_lags('vpd', obs_products=['ERA5'], scale_by=None)
     model_vs_obs_subplots(cmip6_models, 'gpp', 'FLUXCOM-CRUJRAv1', scale_by='mrsos-ESACCI', save=True)
